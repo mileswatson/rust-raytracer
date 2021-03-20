@@ -13,6 +13,10 @@ impl Output for PPM {
         let width = painter.width();
         let height = painter.height();
 
+        use pbr::ProgressBar;
+        let mut pb = ProgressBar::new(height as u64);
+        pb.format("╢▌▌░╟");
+
         let mut file =
             File::create(self.file)
             .expect("Could not open file!");
@@ -25,6 +29,8 @@ impl Output for PPM {
                 write!(file, "{} {} {}\n", r, g, b)
                     .expect("Could not write to file!");
             }
+            pb.inc();
         }
+        pb.finish_print("done");
     }
 }
