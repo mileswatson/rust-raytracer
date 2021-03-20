@@ -1,5 +1,5 @@
 use crate::canvas::Canvas;
-use image::{RgbImage};
+use image::{RgbaImage};
 
 pub struct PPM {
     pub width: u32,
@@ -13,7 +13,7 @@ impl Canvas for PPM {
 
     fn height(&self) -> u32 {self.height }
 
-    fn display(&self, img: RgbImage) {
+    fn display(&self, img: RgbaImage) {
         use std::fs::File;
         use std::io::prelude::*;
 

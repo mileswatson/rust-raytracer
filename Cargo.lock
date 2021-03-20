@@ -1103,6 +1103,7 @@ name = "rust-raytracer"
 version = "0.1.0"
 dependencies = [
  "image",
+ "num_cpus",
  "pbr",
  "piston_window",
 ]

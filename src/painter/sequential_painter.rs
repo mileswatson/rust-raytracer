@@ -2,14 +2,15 @@ use crate::brush::Brush;
 use crate::canvas::Canvas;
 use crate::painter::Painter;
 
-use image::{RgbImage};
+use std::sync::Arc;
+use image::{RgbaImage};
 
 pub struct SequentialPainter {}
 
 impl Painter for SequentialPainter {
-    fn paint(&self, brush: &dyn Brush, canvas: &dyn Canvas) {
+    fn paint(&self, brush: Arc<dyn Brush>, canvas: Arc<dyn Canvas>) {
         let (width, height) = (canvas.width(), canvas.height());
-        let mut buffer = RgbImage::from_pixel(width, height, image::Rgb([0, 0, 0]));
+        let mut buffer = RgbaImage::from_pixel(width, height, image::Rgba([0, 0, 0, 0]));
 
         use pbr::ProgressBar;
         let mut pb = ProgressBar::new(height as u64);
@@ -17,7 +18,8 @@ impl Painter for SequentialPainter {
 
         for y in 0..height {
             for x in 0..width {
-                buffer.put_pixel(x, y, brush.color(x, y));
+                let (r, g, b) = brush.color(x, y);
+                buffer.put_pixel(x, y, image::Rgba([r, g, b, 255]));
             }
             pb.inc();
         }
