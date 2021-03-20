@@ -1,13 +1,13 @@
-mod output;
+mod brush;
+mod canvas;
 mod painter;
 
-use crate::output::Output;
+use painter::Painter;
 
 fn main() {
-    let _output = output::window::Window {};
-    let _painter = painter::gradient::Gradient {
-        width: 1280,
-        height: 720
-    };
-    _output.render(&_painter);
+    let window = canvas::window::Window { width: 1920, height: 1080 };
+    let gradient = brush::gradient::Gradient {};
+    let _painter = painter::sequential_painter::SequentialPainter {};
+
+    _painter.paint(&gradient, &window);
 }

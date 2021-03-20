@@ -1,7 +1,8 @@
-pub mod gradient;
+use crate::brush::Brush;
+use crate::canvas::Canvas;
+
+pub mod sequential_painter;
 
 pub trait Painter {
-    fn width(&self) -> u32;
-    fn height(&self) -> u32;
-    fn color(&self, x: u32, y: u32) -> (u8, u8, u8);
+    fn paint(&self, brush: &dyn Brush, canvas: &dyn Canvas);
 }

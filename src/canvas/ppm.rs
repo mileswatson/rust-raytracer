@@ -1,17 +1,23 @@
-use crate::output::Output;
-use crate::painter::Painter;
+use crate::canvas::Canvas;
+use image::{RgbImage};
 
 pub struct PPM {
-    pub file: &'static str
+    pub width: u32,
+    pub height: u32,
+    pub file: &'static str,
 }
 
-impl Output for PPM {
-    fn render(&self, painter: &dyn Painter) {
+impl Canvas for PPM {
+    
+    fn width(&self) -> u32 { self.width }
+
+    fn height(&self) -> u32 {self.height }
+
+    fn display(&self, img: RgbImage) {
         use std::fs::File;
         use std::io::prelude::*;
 
-        let width = painter.width();
-        let height = painter.height();
+        let (width, height) = img.dimensions();
 
         use pbr::ProgressBar;
         let mut pb = ProgressBar::new(height as u64);
@@ -25,12 +31,13 @@ impl Output for PPM {
 
         for y in 0..height {
             for x in 0..width {
-                let (r, g, b) = painter.color(x, y);
-                write!(file, "{} {} {}\n", r, g, b)
+                let color = img.get_pixel(x, y);
+                write!(file, "{} {} {}\n", color[0], color[1], color[2])
                     .expect("Could not write to file!");
             }
             pb.inc();
         }
+
         pb.finish_print("done");
     }
 }

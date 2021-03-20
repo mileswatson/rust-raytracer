@@ -1,14 +1,20 @@
-use crate::output::Output;
-use crate::painter::Painter;
+use crate::canvas::Canvas;
+use image::{RgbImage, RgbaImage};
 
-pub struct Window {}
+pub struct Window {
+    pub width: u32,
+    pub height: u32,
+}
 
-impl Output for Window {
-    fn render(&self, painter: &dyn Painter) {
-        use image::RgbaImage;
+impl Canvas for Window {
 
-        let width = painter.width();
-        let height = painter.height();
+    fn width(&self) -> u32 { self.width }
+
+    fn height(&self) -> u32 {self.height }
+
+    fn display(&self, img: RgbImage) {
+
+        let (width, height) = img.dimensions();
 
         let mut frame_buffer =
             RgbaImage::from_pixel(
@@ -21,15 +27,16 @@ impl Output for Window {
             .unwrap();
         
         for (x, y, pixel) in frame_buffer.enumerate_pixels_mut() {
-            let (r, g, b) = painter.color(x, y);
-            *pixel = image::Rgba([r, g, b, 255]);
+            let color = img.get_pixel(x, y);
+            *pixel = image::Rgba([color[0], color[1], color[2], 255]);
         }
+        
         let tex = piston_window::Texture::from_image(
             &mut window.create_texture_context(),
             &frame_buffer,
             &piston_window::TextureSettings::new())
             .unwrap();
-    
+
         while let Some(e) = window.next() {
             window.draw_2d(&e, |c, g, _| {
                 piston_window::clear([1.0; 4], g);
