@@ -1,4 +1,3 @@
-
 use crate::painter::Painter;
 
 pub struct Gradient { 

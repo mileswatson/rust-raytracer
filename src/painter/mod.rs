@@ -1,4 +1,3 @@
-
 pub mod gradient;
 
 pub trait Painter {
