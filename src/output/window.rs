@@ -21,8 +21,8 @@ impl Output for Window {
             .unwrap();
         
         for (x, y, pixel) in frame_buffer.enumerate_pixels_mut() {
-            let color = painter.color(width, height, x, y);
-            *pixel = image::Rgba([color.0, color.1, color.2, 255]);
+            let (r, g, b) = painter.color(x, y);
+            *pixel = image::Rgba([r, g, b, 255]);
         }
         let tex = piston_window::Texture::from_image(
             &mut window.create_texture_context(),
