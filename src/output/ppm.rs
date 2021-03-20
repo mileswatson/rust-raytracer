@@ -17,7 +17,7 @@ impl Output for PPM {
             File::create(self.file)
             .expect("Could not open file!");
         
-        write!(file, "P3\n{} {}\n255\n", width, height);
+        write!(file, "P3\n{} {}\n255\n", width, height).expect("Could not write to file!");
 
         for y in 0..height {
             for x in 0..width {
