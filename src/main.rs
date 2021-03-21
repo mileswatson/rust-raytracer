@@ -1,14 +1,19 @@
 extern crate raytracing;
 
 use raytracing::{
-    brush::Gradient,
+    brush::Mandlebrot,
     canvas::Window,
     painter::*
 };
 
 fn main() {
-    let gradient = Gradient {};
-    let mut window = Window { width: 200, height: 100, img: None };
+    let gradient = Mandlebrot {
+        center: (-1., 0.),
+        scale: 4.,
+        iters: 25,
+        max: 1000.
+    };
+    let mut window = Window { width: 1800, height: 1000, img: None };
     let painter = ParallelPainter {};
 
     painter.paint(&gradient, &mut window);
