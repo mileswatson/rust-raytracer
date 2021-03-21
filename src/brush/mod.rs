@@ -3,5 +3,5 @@ pub use self::gradient::Gradient;
 mod gradient;
 
 pub trait Brush: Sync + Send {
-    fn color(&self, x: u32, y: u32) -> (u8, u8, u8);
+    fn color(&self, width: u32, height: u32, x: u32, y: u32) -> (u8, u8, u8);
 }

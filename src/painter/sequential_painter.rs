@@ -16,7 +16,7 @@ impl Painter for SequentialPainter {
 
         for y in 0..height {
             for x in 0..width {
-                let (r, g, b) = brush.color(x, y);
+                let (r, g, b) = brush.color(width, height, x, y);
                 buffer.put_pixel(x, y, image::Rgba([r, g, b, 255]));
             }
             pb.add(width as u64);
