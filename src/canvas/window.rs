@@ -8,7 +8,8 @@ pub struct Window {
 }
 
 impl Window {
-    pub fn display(&mut self, img: RgbaImage) {
+    pub fn display(&mut self) {
+        let img = self.img.as_ref().expect("No image was provided!");
 
         let (width, height) = img.dimensions();
 
