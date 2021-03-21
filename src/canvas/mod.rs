@@ -1,10 +1,29 @@
-pub mod window;
-pub mod ppm;
+pub use self::window::Window;
+pub use self::ppm::PPM;
+pub use self::mock::Mock;
 
-use image::RgbaImage;
+mod ppm;
+mod window;
 
 pub trait Canvas: Sync + Send {
-    fn display(&self, img: RgbaImage);
     fn width(&self) -> u32;
     fn height(&self) -> u32;
+    fn draw(&mut self, img: image::RgbaImage);
 }
+
+mod mock {
+    pub struct Mock {
+        pub width: u32,
+        pub height: u32,
+    }
+    
+    impl crate::canvas::Canvas for Mock {
+        fn width(&self) -> u32 { self.width }
+    
+        fn height(&self) -> u32 {self.height }
+    
+        fn draw(&mut self, _img: image::RgbaImage) {}
+    }
+}
+
+

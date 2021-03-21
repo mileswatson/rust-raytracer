@@ -1,14 +1,17 @@
-mod brush;
-mod canvas;
-mod painter;
+extern crate raytracing;
 
-use painter::Painter;
-use std::sync::Arc;
+use raytracing::{
+    brush::Gradient,
+    canvas::Window,
+    painter::*
+};
 
 fn main() {
-    let window = canvas::window::Window { width: 1920, height: 1080 };
-    let gradient = brush::gradient::Gradient {};
-    let _painter = painter::sequential_painter::SequentialPainter {};
+    let gradient = Gradient {};
+    let mut window = Window { width: 1920, height: 1080, img: None };
+    let seq = SequentialPainter {};
+    let par = ParallelPainter {};
 
-    _painter.paint(Arc::new(gradient), Arc::new(window));
+    seq.paint(&gradient, &mut window);
+    par.paint(&gradient, &mut window);
 }

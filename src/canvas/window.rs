@@ -1,18 +1,14 @@
-use crate::canvas::Canvas;
+use super::Canvas;
 use image::{RgbaImage};
 
 pub struct Window {
     pub width: u32,
     pub height: u32,
+    pub img: Option<RgbaImage>,
 }
 
-impl Canvas for Window {
-
-    fn width(&self) -> u32 { self.width }
-
-    fn height(&self) -> u32 {self.height }
-
-    fn display(&self, img: RgbaImage) {
+impl Window {
+    pub fn display(&mut self, img: RgbaImage) {
 
         let (width, height) = img.dimensions();
 
@@ -35,4 +31,13 @@ impl Canvas for Window {
             });
         }
     }
+}
+
+impl Canvas for Window {
+
+    fn width(&self) -> u32 { self.width }
+
+    fn height(&self) -> u32 {self.height }
+
+    fn draw(&mut self, img: RgbaImage) { self.img = Some(img); }
 }

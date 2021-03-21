@@ -1,68 +1,48 @@
 use crate::brush::Brush;
 use crate::canvas::Canvas;
-use crate::painter::Painter;
+use super::Painter;
 
+use std::sync::Mutex;
 use std::vec::Vec;
-use std::thread;
-use std::sync::{mpsc, Arc};
-use image::{RgbaImage};
+use image::RgbaImage;
+use rayon::prelude::*;
 
 pub struct ParallelPainter {}
 
-fn generate_vec(brush: Arc<dyn Brush>, canvas: Arc<dyn Canvas>, i: usize, max: usize) -> Vec<u8> {
-    let i = i as u32;
-    let max = max as u32;
+fn generate_vec(brush: &dyn Brush, y: u32, width: u32) -> Vec<u8> {
 
-    let (width, height) = (canvas.width(), canvas.height());
-    let start = (height * i) / max;
-    let end =
-        if i == max - 1 { height }
-        else { (height * (i+1)) / max };
+    let mut pixels = std::vec::Vec::with_capacity(width as usize * 4);
 
-    let num_elements = (end-start)*height*4;
-    let mut pixels = std::vec::Vec::with_capacity(num_elements as usize);
-
-    for y in start..end {
-        for x in 0..width {
-            let (r, g, b) = brush.color(x, y);
-            pixels.push(r);
-            pixels.push(g);
-            pixels.push(b);
-            pixels.push(255);
-        }
+    for x in 0..width {
+        let (r, g, b) = brush.color(x, y);
+        pixels.push(r);
+        pixels.push(g);
+        pixels.push(b);
+        pixels.push(255);
     }
 
     pixels
 }
 
 impl Painter for ParallelPainter {
-    fn paint(&self, brush: Arc<dyn Brush>, canvas: Arc<dyn Canvas>) {
-        let (tx, rx) = mpsc::channel();
+    fn paint(&self, brush: &dyn Brush, canvas: &mut dyn Canvas) {
+        let (width, height) = (canvas.width(), canvas.height());
 
-        let mut threads = vec![];
+        use pbr::ProgressBar;
+        let pb = Mutex::new(ProgressBar::new((height*width) as u64));
 
-        let max: usize = num_cpus::get();
-
-        for i in 0..max {
-            let brush = brush.clone();
-            let canvas = canvas.clone();
-            let tx = tx.clone();
-            threads.push(thread::spawn(move || {
-                let segment = generate_vec(brush, canvas, i, max);
-                tx.send((i, segment)).expect("Could not send!");
-            }));
-        }
+        let pixels: Vec<Vec<u8>> = (0..height).into_par_iter()
+            .map(|y| {
+                let v = generate_vec(brush, y, width);
+                pb.lock().unwrap().add(width as u64);
+                v
+            }).collect();
         
-        let mut pixels = vec![vec![]; max as usize];
-
-        for t in threads {
-            t.join().expect("Could not join threads!");
-            let (i, segment) = rx.recv().expect("Channel was closed!");
-            pixels[i] = segment;
-        }
+        pb.lock().unwrap().finish_print("done");
 
         let pixels = pixels.concat();
         let img = RgbaImage::from_vec(canvas.width(), canvas.height(), pixels).expect("Failed to create image!");
-        canvas.display(img);
+
+        canvas.draw(img);
     }
 }

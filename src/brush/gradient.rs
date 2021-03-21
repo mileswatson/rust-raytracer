@@ -1,4 +1,4 @@
-use crate::brush::Brush;
+use super::Brush;
 
 pub struct Gradient {}
 

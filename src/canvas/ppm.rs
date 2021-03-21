@@ -1,21 +1,19 @@
-use crate::canvas::Canvas;
+use super::Canvas;
 use image::{RgbaImage};
+
+use std::fs::File;
+use std::io::prelude::*;
 
 pub struct PPM {
     pub width: u32,
     pub height: u32,
     pub file: &'static str,
+    pub img: Option<RgbaImage>,
 }
 
-impl Canvas for PPM {
-    
-    fn width(&self) -> u32 { self.width }
-
-    fn height(&self) -> u32 {self.height }
-
-    fn display(&self, img: RgbaImage) {
-        use std::fs::File;
-        use std::io::prelude::*;
+impl PPM {
+    pub fn save(&mut self) {
+        let img = self.img.as_ref().expect("Image has not been rendered!");
 
         let (width, height) = img.dimensions();
 
@@ -40,4 +38,12 @@ impl Canvas for PPM {
 
         pb.finish_print("done");
     }
+}
+
+impl Canvas for PPM {
+    fn width(&self) -> u32 { self.width }
+
+    fn height(&self) -> u32 {self.height }
+
+    fn draw(&mut self, img: RgbaImage) { self.img = Some(img); }
 }
