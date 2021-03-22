@@ -30,7 +30,7 @@ impl PPM {
         for y in 0..height {
             for x in 0..width {
                 let color = img.get_pixel(x, y);
-                write!(file, "{} {} {}\n", color[0], color[1], color[2])
+                writeln!(file, "{} {} {}", color[0], color[1], color[2])
                     .expect("Could not write to file!");
             }
             pb.inc();

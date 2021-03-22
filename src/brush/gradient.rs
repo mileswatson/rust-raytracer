@@ -8,9 +8,9 @@ impl Brush for Gradient {
         let (width, height, x, y) = (width as f32, height as f32, x as f32, y as f32);
         let (x, y) = (x/width, y/height);
 
-        let r = x * 256.;
-        let g = y * 256.;
-        let b = x * y * 256.;
-        (r as u8, g as u8, b as u8)
+        let red = x * 256.;
+        let green = y * 256.;
+        let blue = x * y * 256.;
+        (red as u8, green as u8, blue as u8)
     }
 }

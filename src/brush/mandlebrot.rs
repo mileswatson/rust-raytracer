@@ -51,7 +51,8 @@ impl std::ops::Mul for Complex {
 
     fn mul(self, other: Complex) -> Complex {
         Complex {
-            r: self.r * self.r - self.i * other.i,
+            // Square self.r
+            r: self.r * other.r - self.i * other.i,
             i: self.r * other.i + self.i * other.r
         }
     }
