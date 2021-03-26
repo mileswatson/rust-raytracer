@@ -1,5 +1,7 @@
-use crate::brush::Brush;
-use crate::canvas::Canvas;
+use crate::painting::{
+    brush::Brush,
+    canvas::Canvas,
+};
 use super::Painter;
 
 use std::sync::Mutex;

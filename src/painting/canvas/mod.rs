@@ -17,7 +17,7 @@ mod mock {
         pub height: u32,
     }
     
-    impl crate::canvas::Canvas for Mock {
+    impl super::Canvas for Mock {
         fn width(&self) -> u32 { self.width }
     
         fn height(&self) -> u32 {self.height }
