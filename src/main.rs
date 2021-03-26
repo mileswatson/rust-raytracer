@@ -1,6 +1,6 @@
-extern crate raytracing;
+extern crate raytracer;
 
-use raytracing::painting::{
+use raytracer::painting::{
     brush::Mandlebrot,
     canvas::Window,
     painter::*
