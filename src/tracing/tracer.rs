@@ -2,11 +2,11 @@ use crate::painting::brush::Brush;
 use crate::tracing::scene::*;
 use crate::tracing::{Color, Ray, Vec3};
 
-pub struct Tracer {
-    pub sphere: Sphere,
+pub struct Tracer<'a> {
+    pub scene: Scene<'a>,
 }
 
-impl Tracer {
+impl Tracer<'_> {
     fn get_ray(&self, width: f32, height: f32, x: f32, y: f32) -> Ray {
         let x = (2. * x - width) / width;
         let y = (height - 2. * y) / width;
@@ -17,7 +17,7 @@ impl Tracer {
     }
 
     fn trace(&self, ray: Ray) -> Color {
-        if let Some(h) = self.sphere.hit(ray, 1., 100.) {
+        if let Some(h) = self.scene.hit(ray, 1., 100.) {
             0.5 * (h.normal + Vec3::new(1., 1., 1.))
         } else {
             let t = 0.5 * (ray.direction.y + 1.);
@@ -34,7 +34,7 @@ impl Tracer {
     }
 }
 
-impl Brush for Tracer {
+impl Brush for Tracer<'_> {
     fn color(&self, width: u32, height: u32, x: u32, y: u32) -> (u8, u8, u8) {
         let ray = self.get_ray(width as f32, height as f32, x as f32, y as f32);
         let col = self.trace(ray);

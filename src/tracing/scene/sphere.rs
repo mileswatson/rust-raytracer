@@ -1,8 +1,7 @@
 use super::{HitRecord, Hittable};
-use crate::tracing::{Color, Ray, Vec3};
+use crate::tracing::{Ray, Vec3};
 
 pub struct Sphere {
-    pub color: Color,
     pub center: Vec3,
     pub radius: f32,
 }

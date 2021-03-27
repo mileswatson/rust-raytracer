@@ -1,5 +1,7 @@
 use crate::tracing::{Point, Ray, Vec3};
 
+mod sphere;
+
 pub use self::sphere::Sphere;
 
 pub struct HitRecord {
@@ -21,8 +23,27 @@ impl HitRecord {
     }
 }
 
-pub trait Hittable {
+pub trait Hittable: Sync {
     fn hit(&self, ray: Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;
 }
 
-mod sphere;
+pub struct Scene<'a> {
+    pub hittables: Vec<&'a dyn Hittable>,
+}
+
+impl Hittable for Scene<'_> {
+    fn hit(&self, ray: Ray, t_min: f32, mut t_max: f32) -> Option<HitRecord> {
+        let mut x = None;
+        for h in &self.hittables {
+            let hit = h.hit(ray, t_min, t_max);
+            x = match hit {
+                None => x,
+                Some(record) => {
+                    t_max = record.distance;
+                    Some(record)
+                }
+            }
+        }
+        x
+    }
+}
