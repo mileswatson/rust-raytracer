@@ -1,10 +1,7 @@
-use crate::painting::{
-    brush::Brush,
-    canvas::Canvas,
-};
 use super::Painter;
+use crate::painting::{brush::Brush, canvas::Canvas};
 
-use image::{RgbaImage};
+use image::RgbaImage;
 
 pub struct SequentialPainter {}
 
@@ -14,7 +11,7 @@ impl Painter for SequentialPainter {
         let mut buffer = RgbaImage::from_pixel(width, height, image::Rgba([0, 0, 0, 0]));
 
         use pbr::ProgressBar;
-        let mut pb = ProgressBar::new((height*width) as u64);
+        let mut pb = ProgressBar::new((height * width) as u64);
 
         for y in 0..height {
             for x in 0..width {

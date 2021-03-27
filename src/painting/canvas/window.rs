@@ -1,5 +1,5 @@
 use super::Canvas;
-use image::{RgbaImage};
+use image::RgbaImage;
 
 pub struct Window {
     pub width: u32,
@@ -13,17 +13,18 @@ impl Window {
 
         let (width, height) = img.dimensions();
 
-        let mut window : piston_window::PistonWindow =
+        let mut window: piston_window::PistonWindow =
             piston_window::WindowSettings::new("Raytracer", [width, height])
-            .exit_on_esc(true)
-            .build()
-            .unwrap();
-        
+                .exit_on_esc(true)
+                .build()
+                .unwrap();
+
         let tex = piston_window::Texture::from_image(
             &mut window.create_texture_context(),
             &img,
-            &piston_window::TextureSettings::new())
-            .unwrap();
+            &piston_window::TextureSettings::new(),
+        )
+        .unwrap();
 
         while let Some(e) = window.next() {
             window.draw_2d(&e, |c, g, _| {
@@ -35,10 +36,15 @@ impl Window {
 }
 
 impl Canvas for Window {
+    fn width(&self) -> u32 {
+        self.width
+    }
 
-    fn width(&self) -> u32 { self.width }
+    fn height(&self) -> u32 {
+        self.height
+    }
 
-    fn height(&self) -> u32 {self.height }
-
-    fn draw(&mut self, img: RgbaImage) { self.img = Some(img); }
+    fn draw(&mut self, img: RgbaImage) {
+        self.img = Some(img);
+    }
 }

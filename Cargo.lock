@@ -1059,6 +1059,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "ray"
+version = "0.1.0"
+dependencies = [
+ "image",
+ "pbr",
+ "piston_window",
+ "rayon",
+]
+
+[[package]]
 name = "rayon"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1081,16 +1091,6 @@ dependencies = [
  "crossbeam-utils",
  "lazy_static",
  "num_cpus",
-]
-
-[[package]]
-name = "raytracer"
-version = "0.1.0"
-dependencies = [
- "image",
- "pbr",
- "piston_window",
- "rayon",
 ]
 
 [[package]]

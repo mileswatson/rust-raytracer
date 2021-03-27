@@ -1,5 +1,5 @@
 use super::Canvas;
-use image::{RgbaImage};
+use image::RgbaImage;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -21,10 +21,8 @@ impl PPM {
         let mut pb = ProgressBar::new(height as u64);
         pb.format("╢▌▌░╟");
 
-        let mut file =
-            File::create(self.file)
-            .expect("Could not open file!");
-        
+        let mut file = File::create(self.file).expect("Could not open file!");
+
         write!(file, "P3\n{} {}\n255\n", width, height).expect("Could not write to file!");
 
         for y in 0..height {
@@ -41,9 +39,15 @@ impl PPM {
 }
 
 impl Canvas for PPM {
-    fn width(&self) -> u32 { self.width }
+    fn width(&self) -> u32 {
+        self.width
+    }
 
-    fn height(&self) -> u32 {self.height }
+    fn height(&self) -> u32 {
+        self.height
+    }
 
-    fn draw(&mut self, img: RgbaImage) { self.img = Some(img); }
+    fn draw(&mut self, img: RgbaImage) {
+        self.img = Some(img);
+    }
 }
