@@ -1,5 +1,6 @@
 use super::Brush;
 
+/// A brush to render the mandlebrot set from a given perspective.
 pub struct Mandlebrot {
     pub center: (f32, f32),
     pub scale: f32,
@@ -50,7 +51,6 @@ impl std::ops::Mul for Complex {
 
     fn mul(self, other: Complex) -> Complex {
         Complex {
-            // Square self.r
             r: self.r * other.r - self.i * other.i,
             i: self.r * other.i + self.i * other.r,
         }

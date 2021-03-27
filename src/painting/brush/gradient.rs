@@ -1,5 +1,6 @@
 use super::Brush;
 
+// A simple brush that calculates a gradient.
 pub struct Gradient {}
 
 impl Brush for Gradient {
