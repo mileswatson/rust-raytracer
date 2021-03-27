@@ -6,6 +6,10 @@ pub struct Vec3 {
 }
 
 impl Vec3 {
+    pub fn new(x: f32, y: f32, z: f32) -> Vec3 {
+        Vec3 { x, y, z }
+    }
+
     pub fn length(self) -> f32 {
         (self.length_squared()).sqrt()
     }
@@ -16,6 +20,10 @@ impl Vec3 {
 
     pub fn unit(self) -> Vec3 {
         self / self.length()
+    }
+
+    pub fn dot(&self, other: Self) -> f32 {
+        self.x * other.x + self.y * other.y + self.z * other.z
     }
 }
 

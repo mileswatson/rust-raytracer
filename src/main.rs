@@ -1,14 +1,12 @@
 extern crate ray;
 
-use ray::painting::{brush::Mandlebrot, canvas::Window, painter::*};
+use ray::{
+    painting::{canvas::Window, painter::*},
+    tracing::Tracer,
+};
 
 fn main() {
-    let gradient = Mandlebrot {
-        center: (-1., 0.),
-        scale: 4.,
-        iters: 25,
-        max: 1000.,
-    };
+    let tracer = Tracer {};
     let mut window = Window {
         width: 1800,
         height: 1000,
@@ -16,6 +14,6 @@ fn main() {
     };
     let painter = ParallelPainter {};
 
-    painter.paint(&gradient, &mut window);
+    painter.paint(&tracer, &mut window);
     window.display();
 }
