@@ -5,6 +5,9 @@ pub struct Vec3 {
     pub z: f32,
 }
 
+pub type Color = Vec3;
+pub type Point = Vec3;
+
 impl Vec3 {
     pub fn new(x: f32, y: f32, z: f32) -> Vec3 {
         Vec3 { x, y, z }
@@ -39,6 +42,18 @@ impl std::ops::Add for Vec3 {
     }
 }
 
+impl std::ops::Add<f32> for Vec3 {
+    type Output = Self;
+
+    fn add(self, other: f32) -> Self {
+        Self {
+            x: self.x + other,
+            y: self.y + other,
+            z: self.z + other,
+        }
+    }
+}
+
 impl std::ops::Sub for Vec3 {
     type Output = Self;
 
@@ -62,15 +77,11 @@ impl std::ops::Neg for Vec3 {
     }
 }
 
-impl std::ops::Mul<f32> for Vec3 {
-    type Output = Self;
+impl std::ops::Mul<Vec3> for f32 {
+    type Output = Vec3;
 
-    fn mul(self, other: f32) -> Self {
-        Self {
-            x: self.x * other,
-            y: self.y * other,
-            z: self.z * other,
-        }
+    fn mul(self, other: Vec3) -> Vec3 {
+        Vec3::new(self * other.x, self * other.y, self * other.z)
     }
 }
 

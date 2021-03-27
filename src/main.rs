@@ -1,12 +1,19 @@
 extern crate ray;
 
+use ray::tracing::scene::Sphere;
 use ray::{
     painting::{canvas::Window, painter::*},
-    tracing::Tracer,
+    tracing::{Color, Point, Tracer},
 };
 
 fn main() {
-    let tracer = Tracer {};
+    let tracer = Tracer {
+        sphere: Sphere {
+            center: Point::new(0., 0., 2.),
+            color: Color::new(1., 0., 0.),
+            radius: 0.5,
+        },
+    };
     let mut window = Window {
         width: 1800,
         height: 1000,
