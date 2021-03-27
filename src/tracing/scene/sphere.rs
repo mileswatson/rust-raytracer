@@ -26,11 +26,7 @@ impl Hittable for Sphere {
         }
 
         let point = ray.at(root);
-
-        Some(HitRecord {
-            distance: root,
-            point,
-            normal: (point - self.center).unit(),
-        })
+        let normal = (point - self.center).unit();
+        Some(HitRecord::new(ray, root, normal))
     }
 }
