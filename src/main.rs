@@ -20,6 +20,7 @@ fn main() {
         scene: Scene {
             hittables: vec![s, world],
         },
+        samples: 10,
     };
     let mut window = Window {
         width: 1800,

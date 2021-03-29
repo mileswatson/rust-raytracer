@@ -2,8 +2,30 @@ use crate::painting::brush::Brush;
 use crate::tracing::scene::*;
 use crate::tracing::{Color, Ray, Vec3};
 
+extern crate rand;
+use rand::Rng;
+
 pub struct Camera<'a> {
     pub scene: Scene<'a>,
+    pub samples: u32,
+}
+
+fn clamp(x: f32, min: f32, max: f32) -> f32 {
+    if x < min {
+        min
+    } else if x > max {
+        max
+    } else {
+        x
+    }
+}
+
+fn clamp_color(col: Color) -> (u8, u8, u8) {
+    (
+        (clamp(col.x, 0., 0.999) * 256.) as u8,
+        (clamp(col.y, 0., 0.999) * 256.) as u8,
+        (clamp(col.z, 0., 0.999) * 256.) as u8,
+    )
 }
 
 impl Camera<'_> {
@@ -25,19 +47,26 @@ impl Camera<'_> {
         }
     }
 
-    fn grade(&self, col: Color) -> (u8, u8, u8) {
-        (
-            (col.x * 256.) as u8,
-            (col.y * 256.) as u8,
-            (col.z * 256.) as u8,
-        )
+    fn get_color(&self, width: f32, height: f32, x: f32, y: f32) -> (u8, u8, u8) {
+        let mut colors = vec![];
+        let mut rng = rand::thread_rng();
+        for _ in 0..self.samples {
+            let x = x + rng.gen::<f32>();
+            let y = y + rng.gen::<f32>();
+            let ray = self.get_ray(width, height, x, y);
+            let col = self.trace(ray);
+            colors.push(col);
+        }
+        let sum = colors
+            .iter()
+            .fold(Color::new(0., 0., 0.), |acc, val| acc + *val);
+        let avg = sum / colors.len() as f32;
+        clamp_color(avg)
     }
 }
 
 impl Brush for Camera<'_> {
     fn color(&self, width: u32, height: u32, x: u32, y: u32) -> (u8, u8, u8) {
-        let ray = self.get_ray(width as f32, height as f32, x as f32, y as f32);
-        let col = self.trace(ray);
-        self.grade(col)
+        self.get_color(width as f32, height as f32, x as f32, y as f32)
     }
 }
