@@ -4,7 +4,7 @@ use ray::tracing::scene::Scene;
 use ray::tracing::scene::Sphere;
 use ray::{
     painting::{canvas::Window, painter::*},
-    tracing::{Point, Tracer},
+    tracing::{Camera, Point},
 };
 
 fn main() {
@@ -16,7 +16,7 @@ fn main() {
         center: Point::new(0., -100.5, 1.),
         radius: 100.,
     };
-    let tracer = Tracer {
+    let tracer = Camera {
         scene: Scene {
             hittables: vec![s, world],
         },

@@ -2,11 +2,11 @@ use crate::painting::brush::Brush;
 use crate::tracing::scene::*;
 use crate::tracing::{Color, Ray, Vec3};
 
-pub struct Tracer<'a> {
+pub struct Camera<'a> {
     pub scene: Scene<'a>,
 }
 
-impl Tracer<'_> {
+impl Camera<'_> {
     fn get_ray(&self, width: f32, height: f32, x: f32, y: f32) -> Ray {
         let x = (2. * x - width) / width;
         let y = (height - 2. * y) / width;
@@ -34,7 +34,7 @@ impl Tracer<'_> {
     }
 }
 
-impl Brush for Tracer<'_> {
+impl Brush for Camera<'_> {
     fn color(&self, width: u32, height: u32, x: u32, y: u32) -> (u8, u8, u8) {
         let ray = self.get_ray(width as f32, height as f32, x as f32, y as f32);
         let col = self.trace(ray);
