@@ -23,9 +23,9 @@ fn clamp(x: f32, min: f32, max: f32) -> f32 {
 
 fn clamp_color(col: Color) -> (u8, u8, u8) {
     (
-        (clamp(col.x, 0., 0.999) * 256.) as u8,
-        (clamp(col.y, 0., 0.999) * 256.) as u8,
-        (clamp(col.z, 0., 0.999) * 256.) as u8,
+        (clamp(col.x.sqrt(), 0., 0.999) * 256.) as u8,
+        (clamp(col.y.sqrt(), 0., 0.999) * 256.) as u8,
+        (clamp(col.z.sqrt(), 0., 0.999) * 256.) as u8,
     )
 }
 
@@ -45,8 +45,8 @@ impl Camera<'_> {
                 y: 0.,
                 z: 0.,
             }
-        } else if let Some(h) = self.scene.hit(ray, 0., 100.) {
-            let direction = h.normal + Vec3::random_in_sphere();
+        } else if let Some(h) = self.scene.hit(ray, 0.001, 100.) {
+            let direction = h.normal + Vec3::random_on_sphere();
             0.5 * self.trace(Ray::new(h.point, direction), depth - 1)
         } else {
             let t = 0.5 * (ray.direction.y + 1.);

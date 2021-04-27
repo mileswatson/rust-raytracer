@@ -20,12 +20,12 @@ fn main() {
         scene: Scene {
             hittables: vec![s, world],
         },
-        samples: 10,
-        max_depth: 50,
+        samples: 100,
+        max_depth: 25,
     };
     let mut window = Window {
-        width: 1800,
-        height: 1000,
+        width: 450,
+        height: 250,
         img: None,
     };
     let painter = ParallelPainter {};

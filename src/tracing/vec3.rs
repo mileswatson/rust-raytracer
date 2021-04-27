@@ -24,13 +24,13 @@ impl Vec3 {
         Vec3 { x, y, z }
     }
 
-    pub fn random_in_sphere() -> Vec3 {
+    pub fn random_on_sphere() -> Vec3 {
         loop {
             let p = Vec3::random();
             if p.length_squared() > 1. {
                 continue;
             }
-            return p;
+            return p.unit();
         }
     }
 
