@@ -8,6 +8,7 @@ use rand::Rng;
 pub struct Camera<'a> {
     pub scene: Scene<'a>,
     pub samples: u32,
+    pub max_depth: i32,
 }
 
 fn clamp(x: f32, min: f32, max: f32) -> f32 {
@@ -32,15 +33,21 @@ impl Camera<'_> {
     fn get_ray(&self, width: f32, height: f32, x: f32, y: f32) -> Ray {
         let x = (2. * x - width) / width;
         let y = (height - 2. * y) / width;
-        Ray {
-            origin: Vec3::new(0., 0., 0.),
-            direction: Vec3::new(x, y, 1.),
-        }
+        let direction = Vec3::new(x, y, 1.);
+        let origin = Vec3::new(0., 0., 0.) + direction;
+        Ray { origin, direction }
     }
 
-    fn trace(&self, ray: Ray) -> Color {
-        if let Some(h) = self.scene.hit(ray, 1., 100.) {
-            0.5 * (h.normal + Vec3::new(1., 1., 1.))
+    fn trace(&self, ray: Ray, depth: i32) -> Color {
+        if depth <= 0 {
+            Vec3 {
+                x: 0.,
+                y: 0.,
+                z: 0.,
+            }
+        } else if let Some(h) = self.scene.hit(ray, 0., 100.) {
+            let direction = h.normal + Vec3::random_in_sphere();
+            0.5 * self.trace(Ray::new(h.point, direction), depth - 1)
         } else {
             let t = 0.5 * (ray.direction.y + 1.);
             (1.0 - t) * Color::new(1., 1., 1.) + t * Color::new(0.5, 0.7, 1.)
@@ -54,7 +61,7 @@ impl Camera<'_> {
             let x = x + rng.gen::<f32>();
             let y = y + rng.gen::<f32>();
             let ray = self.get_ray(width, height, x, y);
-            let col = self.trace(ray);
+            let col = self.trace(ray, self.max_depth);
             colors.push(col);
         }
         let sum = colors

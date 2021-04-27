@@ -1,3 +1,6 @@
+extern crate rand;
+use rand::Rng;
+
 #[derive(Debug, Clone, Copy)]
 pub struct Vec3 {
     pub x: f32,
@@ -11,6 +14,24 @@ pub type Point = Vec3;
 impl Vec3 {
     pub fn new(x: f32, y: f32, z: f32) -> Vec3 {
         Vec3 { x, y, z }
+    }
+
+    pub fn random() -> Vec3 {
+        let mut rng = rand::thread_rng();
+        let x = 2. * rng.gen::<f32>() - 1.;
+        let y = 2. * rng.gen::<f32>() - 1.;
+        let z = 2. * rng.gen::<f32>() - 1.;
+        Vec3 { x, y, z }
+    }
+
+    pub fn random_in_sphere() -> Vec3 {
+        loop {
+            let p = Vec3::random();
+            if p.length_squared() > 1. {
+                continue;
+            }
+            return p;
+        }
     }
 
     pub fn length(self) -> f32 {

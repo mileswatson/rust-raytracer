@@ -21,6 +21,7 @@ fn main() {
             hittables: vec![s, world],
         },
         samples: 10,
+        max_depth: 50,
     };
     let mut window = Window {
         width: 1800,
