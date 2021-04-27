@@ -1,5 +1,4 @@
-use super::{HitRecord, Hittable};
-use crate::tracing::{Ray, Vec3};
+use crate::tracing::{HitRecord, Hittable, Ray, Vec3};
 
 pub struct Sphere {
     pub center: Vec3,

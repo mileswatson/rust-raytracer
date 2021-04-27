@@ -1,8 +1,4 @@
-use crate::tracing::{Point, Ray, Vec3};
-
-mod sphere;
-
-pub use self::sphere::Sphere;
+use crate::tracing::{Color, Point, Ray, Vec3};
 
 pub struct HitRecord {
     pub point: Point,
@@ -12,7 +8,7 @@ pub struct HitRecord {
 }
 
 impl HitRecord {
-    fn new(ray: Ray, distance: f32, normal: Vec3) -> HitRecord {
+    pub fn new(ray: Ray, distance: f32, normal: Vec3) -> HitRecord {
         let front_face = ray.direction.dot(normal) < 0.;
         HitRecord {
             point: ray.at(distance),
@@ -21,6 +17,10 @@ impl HitRecord {
             front_face,
         }
     }
+}
+
+pub trait Material {
+    fn scatter(&self, hit: HitRecord, attenuation: Color) -> Option<Ray>;
 }
 
 pub trait Hittable: Sync {

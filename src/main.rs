@@ -1,10 +1,8 @@
 extern crate ray;
 
-use ray::tracing::scene::Scene;
-use ray::tracing::scene::Sphere;
 use ray::{
     painting::{canvas::Window, painter::*},
-    tracing::{Camera, Point},
+    tracing::{objects::*, Camera, Point, Scene},
 };
 
 fn main() {
