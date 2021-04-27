@@ -46,8 +46,14 @@ impl Camera<'_> {
                 z: 0.,
             }
         } else if let Some(h) = self.scene.hit(ray, 0.001, 100.) {
-            let direction = h.normal + Vec3::random_on_sphere();
-            0.5 * self.trace(Ray::new(h.point, direction), depth - 1)
+            match h.material.scatter(ray, h) {
+                Some((_, scattered)) => 0.5 * self.trace(scattered, depth - 1),
+                None => Vec3 {
+                    x: 0.,
+                    y: 0.,
+                    z: 0.,
+                },
+            }
         } else {
             let t = 0.5 * (ray.direction.y + 1.);
             (1.0 - t) * Color::new(1., 1., 1.) + t * Color::new(0.5, 0.7, 1.)

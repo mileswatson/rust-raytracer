@@ -2,17 +2,31 @@ extern crate ray;
 
 use ray::{
     painting::{canvas::Window, painter::*},
-    tracing::{objects::*, Camera, Point, Scene},
+    tracing::{materials::*, objects::*, Camera, Color, Point, Scene},
 };
 
 fn main() {
     let s = &Sphere {
         center: Point::new(0., 0., 2.),
         radius: 0.5,
+        material: &Lambertian {
+            albedo: Color {
+                x: 0.,
+                y: 0.,
+                z: 1.,
+            },
+        },
     };
     let world = &Sphere {
         center: Point::new(0., -100.5, 1.),
         radius: 100.,
+        material: &Lambertian {
+            albedo: Color {
+                x: 0.,
+                y: 0.,
+                z: 1.,
+            },
+        },
     };
     let tracer = Camera {
         scene: Scene {

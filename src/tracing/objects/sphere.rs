@@ -1,11 +1,12 @@
-use crate::tracing::{HitRecord, Hittable, Ray, Vec3};
+use crate::tracing::{HitRecord, Hittable, Material, Ray, Vec3};
 
-pub struct Sphere {
+pub struct Sphere<'a> {
     pub center: Vec3,
     pub radius: f32,
+    pub material: &'a dyn Material,
 }
 
-impl Hittable for Sphere {
+impl Hittable for Sphere<'_> {
     fn hit(&self, ray: Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let co = ray.origin - self.center;
         let a = ray.direction.length_squared();
@@ -25,6 +26,6 @@ impl Hittable for Sphere {
 
         let point = ray.at(root);
         let normal = (point - self.center).unit();
-        Some(HitRecord::new(ray, root, normal))
+        Some(HitRecord::new(ray, root, normal, self.material))
     }
 }

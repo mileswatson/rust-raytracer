@@ -1,26 +1,28 @@
 use crate::tracing::{Color, Point, Ray, Vec3};
 
-pub struct HitRecord {
+pub struct HitRecord<'a> {
     pub point: Point,
     pub normal: Vec3,
     pub distance: f32,
     pub front_face: bool,
+    pub material: &'a dyn Material,
 }
 
-impl HitRecord {
-    pub fn new(ray: Ray, distance: f32, normal: Vec3) -> HitRecord {
+impl HitRecord<'_> {
+    pub fn new(ray: Ray, distance: f32, normal: Vec3, material: &dyn Material) -> HitRecord {
         let front_face = ray.direction.dot(normal) < 0.;
         HitRecord {
             point: ray.at(distance),
             normal: if front_face { normal } else { -normal },
             distance,
             front_face,
+            material,
         }
     }
 }
 
-pub trait Material {
-    fn scatter(&self, hit: HitRecord, attenuation: Color) -> Option<Ray>;
+pub trait Material: Sync {
+    fn scatter(&self, ray: Ray, hit: HitRecord) -> Option<(Color, Ray)>;
 }
 
 pub trait Hittable: Sync {
