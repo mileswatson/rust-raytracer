@@ -6,7 +6,10 @@ pub struct Lambertian {
 
 impl Material for Lambertian {
     fn scatter(&self, _ray: Ray, h: HitRecord) -> Option<(Color, Ray)> {
-        let direction = h.normal + Vec3::random_on_sphere();
+        let mut direction = h.normal + Vec3::random_on_sphere();
+        if direction.near_zero() {
+            direction = h.normal;
+        }
         let scattered = Ray::new(h.point, direction);
         Some((self.albedo, scattered))
     }

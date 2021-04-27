@@ -47,7 +47,7 @@ impl Camera<'_> {
             }
         } else if let Some(h) = self.scene.hit(ray, 0.001, 100.) {
             match h.material.scatter(ray, h) {
-                Some((_, scattered)) => 0.5 * self.trace(scattered, depth - 1),
+                Some((attenuation, scattered)) => attenuation * self.trace(scattered, depth - 1),
                 None => Vec3 {
                     x: 0.,
                     y: 0.,

@@ -34,6 +34,10 @@ impl Vec3 {
         }
     }
 
+    pub fn near_zero(self) -> bool {
+        self.length_squared() < 1e-8
+    }
+
     pub fn length(self) -> f32 {
         (self.length_squared()).sqrt()
     }
@@ -103,6 +107,17 @@ impl std::ops::Mul<Vec3> for f32 {
 
     fn mul(self, other: Vec3) -> Vec3 {
         Vec3::new(self * other.x, self * other.y, self * other.z)
+    }
+}
+
+impl std::ops::Mul for Vec3 {
+    type Output = Self;
+    fn mul(self, other: Self) -> Self {
+        Self {
+            x: self.x * other.x,
+            y: self.y * other.y,
+            z: self.z * other.z,
+        }
     }
 }
 

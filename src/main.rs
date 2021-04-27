@@ -12,8 +12,8 @@ fn main() {
         material: &Lambertian {
             albedo: Color {
                 x: 0.,
-                y: 0.,
-                z: 1.,
+                y: 0.7,
+                z: 0.,
             },
         },
     };
@@ -22,9 +22,9 @@ fn main() {
         radius: 100.,
         material: &Lambertian {
             albedo: Color {
-                x: 0.,
-                y: 0.,
-                z: 1.,
+                x: 0.5,
+                y: 0.5,
+                z: 0.5,
             },
         },
     };
