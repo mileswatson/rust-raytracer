@@ -50,7 +50,7 @@ impl Vec3 {
         self / self.length()
     }
 
-    pub fn dot(&self, other: Self) -> f32 {
+    pub fn dot(self, other: Self) -> f32 {
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 }
