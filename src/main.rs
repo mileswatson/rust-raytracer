@@ -11,9 +11,9 @@ fn main() {
         radius: 0.5,
         material: &Lambertian {
             albedo: Color {
-                x: 0.,
-                y: 0.7,
-                z: 0.,
+                x: 0.3,
+                y: 0.5,
+                z: 0.1,
             },
         },
     };
@@ -22,9 +22,9 @@ fn main() {
         radius: 100.,
         material: &Lambertian {
             albedo: Color {
-                x: 0.5,
-                y: 0.5,
-                z: 0.5,
+                x: 0.3,
+                y: 0.1,
+                z: 0.2,
             },
         },
     };
@@ -32,7 +32,7 @@ fn main() {
         scene: Scene {
             hittables: vec![s, world],
         },
-        samples: 100,
+        samples: 10,
         max_depth: 25,
     };
     let mut window = Window {
