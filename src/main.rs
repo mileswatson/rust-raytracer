@@ -29,11 +29,11 @@ fn main() {
         },
     };
     let right = &Sphere {
-        center: Point::new(1., 0., 2.),
-        radius: 0.5,
-        material: &Metal {
-            albedo: Color::new(0.8, 0.6, 0.2),
-            fuzz: 0.5,
+        center: Point::new(-0.5, -0.2, 1.5),
+        radius: 0.2,
+        material: &Glass {
+            albedo: Color::new(1., 1.0, 1.0),
+            refractive_index: 1.5,
         },
     };
 
@@ -41,7 +41,7 @@ fn main() {
         scene: Scene {
             hittables: vec![ground, center, left, right],
         },
-        samples: 100,
+        samples: 50,
         max_depth: 25,
     };
     let mut window = Window {

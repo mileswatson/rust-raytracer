@@ -26,6 +26,7 @@ impl Hittable for Sphere<'_> {
 
         let point = ray.at(root);
         let normal = (point - self.center).unit();
+        let normal = if self.radius < 0. { -normal } else { normal };
         Some(HitRecord::new(ray, root, normal, self.material))
     }
 }
