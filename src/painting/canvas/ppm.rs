@@ -4,14 +4,14 @@ use image::RgbaImage;
 use std::fs::File;
 use std::io::prelude::*;
 
-pub struct PPM {
+pub struct Ppm {
     pub width: u32,
     pub height: u32,
     pub file: &'static str,
     pub img: Option<RgbaImage>,
 }
 
-impl PPM {
+impl Ppm {
     pub fn save(&mut self) {
         let img = self.img.as_ref().expect("Image has not been rendered!");
 
@@ -38,7 +38,7 @@ impl PPM {
     }
 }
 
-impl Canvas for PPM {
+impl Canvas for Ppm {
     fn width(&self) -> u32 {
         self.width
     }

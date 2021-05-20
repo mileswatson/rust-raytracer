@@ -1,5 +1,5 @@
 pub use self::mock::Mock;
-pub use self::ppm::PPM;
+pub use self::ppm::Ppm;
 pub use self::window::Window;
 
 mod ppm;
