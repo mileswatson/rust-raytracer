@@ -1,3 +1,5 @@
+extern crate alea;
+
 use crate::tracing::{Color, HitRecord, Material, Ray};
 
 pub struct Glass {
@@ -21,8 +23,7 @@ impl Material for Glass {
 
         let a = -h.normal.dot(ray.direction);
         let o = (1. - a * a).sqrt();
-        let direction = if (o / ratio > 1.) || (reflectance(a, 1. / ratio) > rand::random::<f32>())
-        {
+        let direction = if (o / ratio > 1.) || (reflectance(a, 1. / ratio) > alea::f32()) {
             ray.direction + 2. * a * h.normal
         } else {
             let k = (a * a + ratio * ratio - 1.).sqrt() - a;

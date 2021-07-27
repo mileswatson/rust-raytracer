@@ -2,8 +2,7 @@ use crate::painting::brush::Brush;
 use crate::tracing::scene::*;
 use crate::tracing::{Color, Ray, Vec3};
 
-extern crate rand;
-use rand::Rng;
+extern crate alea;
 
 pub struct Camera<'a> {
     pub scene: Scene<'a>,
@@ -62,10 +61,9 @@ impl Camera<'_> {
 
     fn get_color(&self, width: f32, height: f32, x: f32, y: f32) -> (u8, u8, u8) {
         let mut colors = vec![];
-        let mut rng = rand::thread_rng();
         for _ in 0..self.samples {
-            let x = x + rng.gen::<f32>();
-            let y = y + rng.gen::<f32>();
+            let x = x + alea::f32();
+            let y = y + alea::f32();
             let ray = self.get_ray(width, height, x, y);
             let col = self.trace(ray, self.max_depth);
             colors.push(col);

@@ -1,5 +1,4 @@
-extern crate rand;
-use rand::Rng;
+extern crate alea;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Vec3 {
@@ -17,10 +16,9 @@ impl Vec3 {
     }
 
     pub fn random() -> Vec3 {
-        let mut rng = rand::thread_rng();
-        let x = 2. * rng.gen::<f32>() - 1.;
-        let y = 2. * rng.gen::<f32>() - 1.;
-        let z = 2. * rng.gen::<f32>() - 1.;
+        let x = alea::f32_in_range(-1., 1.);
+        let y = alea::f32_in_range(-1., 1.);
+        let z = alea::f32_in_range(-1., 1.);
         Vec3 { x, y, z }
     }
 
