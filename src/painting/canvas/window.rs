@@ -21,7 +21,7 @@ impl Window {
 
         let tex = piston_window::Texture::from_image(
             &mut window.create_texture_context(),
-            &img,
+            img,
             &piston_window::TextureSettings::new(),
         )
         .unwrap();
